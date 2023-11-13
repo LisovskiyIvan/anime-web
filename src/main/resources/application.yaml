@@ -1,0 +1,22 @@
+server:
+  port: 8081
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:8080/anime
+    username: postgres
+    password: 3817!
+  jpa:
+    generate-ddl: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master.xml
