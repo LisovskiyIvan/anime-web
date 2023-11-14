@@ -1,11 +1,14 @@
 package com.example.anime.domain;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
-
+@Data
 @Entity
 @Table(name = "genres")
+@NoArgsConstructor
 public class Genre {
     @Id
     private Long id;

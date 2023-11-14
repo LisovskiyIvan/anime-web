@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
-
+@SuppressWarnings("unused")
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AnimeDTO {
     @JsonProperty(value = "data")
-    private List<Anime> animes;
+    private List<Anime> anime;
+    @Data
     public static class Anime {
         @JsonProperty(value = "mal_id")
         private int id;
@@ -54,14 +55,14 @@ public class AnimeDTO {
         private List<Genre> genres;
 
         @Data
-        private static class Images {
+        public static class Images {
             @JsonProperty(value = "jpg")
             private Image jpg;
             @JsonProperty(value = "webp")
             private Image webp;
 
             @Data
-            private static class Image {
+            public static class Image {
                 @JsonProperty(value = "image_url")
                 private String imageUrl;
                 @JsonProperty(value = "small_image_url")
@@ -72,7 +73,7 @@ public class AnimeDTO {
         }
 
         @Data
-        private static class Trailer {
+        public static class Trailer {
             @JsonProperty(value = "youtube_id")
             private String youtubeId;
             @JsonProperty(value = "url")
@@ -83,7 +84,7 @@ public class AnimeDTO {
             private Images images;
 
             @Data
-            private static class Images {
+            public static class Images {
                 @JsonProperty(value = "image_url")
                 private String imageUrl;
                 @JsonProperty(value = "small_image_url")
@@ -98,7 +99,7 @@ public class AnimeDTO {
         }
 
         @Data
-        private static class Aired {
+        public static class Aired {
             @JsonProperty(value = "from")
             private String from;
             @JsonProperty(value = "to")
@@ -109,14 +110,14 @@ public class AnimeDTO {
             private String stringAired;
 
             @Data
-            private static class Prop {
+            public static class Prop {
                 @JsonProperty(value = "from")
                 private Date from;
                 @JsonProperty(value = "to")
                 private Date to;
 
                 @Data
-                private static class Date {
+                public static class Date {
                     @JsonProperty(value = "day")
                     private String day;
                     @JsonProperty(value = "month")
@@ -128,7 +129,7 @@ public class AnimeDTO {
         }
 
         @Data
-        private static class Studio {
+        public static class Studio {
             @JsonProperty(value = "mal_id")
             private int id;
             @JsonProperty(value = "type")
@@ -141,7 +142,7 @@ public class AnimeDTO {
         }
 
         @Data
-        private static class Genre {
+        public static class Genre {
             @JsonProperty(value = "mal_id")
             private int id;
             @JsonProperty(value = "type")

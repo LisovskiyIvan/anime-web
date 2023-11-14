@@ -30,7 +30,7 @@ public class Trailer {
     private String largeImageUrl;
     @Column(name = "max_image_url")
     private String maximumImageUrl;
-    @ManyToOne
+    @OneToOne
     private Anime title;
 
 }

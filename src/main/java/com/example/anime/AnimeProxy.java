@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.GetMapping;
             url = "https://api.jikan.moe/v4")
 public interface AnimeProxy {
     @GetMapping("/top/anime")
-    AnimeDTO getAnimes();
+    AnimeDTO getAnime();
 }

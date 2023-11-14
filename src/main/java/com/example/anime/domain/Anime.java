@@ -20,13 +20,13 @@ public class Anime {
     private String smallImageUrl;
     @Column(name = "large_image_url")
     private String largeImageUrl;
-    @OneToMany(mappedBy = "title")
-    private List<Trailer> trailer;
+    @OneToOne(mappedBy = "title")
+    private Trailer trailer;
     @ManyToMany
     @JoinTable(name = "title_genres",
             joinColumns = @JoinColumn(name = "title"),
             inverseJoinColumns = @JoinColumn(name = "genre"))
-    private List<Genre> genre;
+    private List<Genre> genres;
     @ManyToMany
     @JoinTable(name = "title_studios",
             joinColumns = @JoinColumn(name = "title"),
@@ -51,9 +51,9 @@ public class Anime {
     @Column(name = "aired_from")
     private String airedFrom;
     @Column(name = "aired_to")
-    private String airingTo;
+    private String airedTo;
     @Column(name = "aired_str")
-    private String airingStr;
+    private String airedStr;
     @Column(name = "duration")
     private String duration;
     @Column(name = "rating")
