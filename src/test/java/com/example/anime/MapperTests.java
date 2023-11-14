@@ -3,20 +3,18 @@ package com.example.anime;
 import com.example.anime.DTO.AnimeDTO;
 import com.example.anime.domain.Anime;
 import com.example.anime.mappers.DTOToAnimeDomainMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MapperTests {
     @Autowired
     DTOToAnimeDomainMapper animeDomainMapper;
     @Test
     public void animeMapperTest() {
-
+        Assertions.assertEquals(animeDomain(),animeDomainMapper.dtoToDomain(animeDTO()));
     }
 
     private AnimeDTO.Anime animeDTO() {

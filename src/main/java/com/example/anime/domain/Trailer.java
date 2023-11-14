@@ -13,7 +13,6 @@ public class Trailer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "youtubeId")
     private String youtubeId;
     @Column(name = "url")
