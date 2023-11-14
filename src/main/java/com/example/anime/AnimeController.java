@@ -42,7 +42,7 @@ public class AnimeController {
 //        for (AnimeDTO.Anime anime : animeDTO.getAnime().subList(0,10)) {
 //            animeRepo.save(animeDomainMapper.dtoToDomain(anime));
 //        }
-        GenreDTO genres = proxy.getGenres("genres");
+        GenreDTO genres = proxy.getGenres();
         for (GenreDTO.Genre genre : genres.getGenres()) {
                 genreRepo.save(genreDomainMapper.dtoToDomain(genre));
         }

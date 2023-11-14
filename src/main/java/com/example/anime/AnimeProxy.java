@@ -14,5 +14,5 @@ public interface AnimeProxy {
     @GetMapping("/top/anime")
     AnimeDTO getAnime();
     @GetMapping("/genres/anime")
-    GenreDTO getGenres(@RequestParam String filter);
+    GenreDTO getGenres();
 }
