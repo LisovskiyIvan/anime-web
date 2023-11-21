@@ -5,7 +5,7 @@ import com.example.anime.domain.Anime;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {DTOToStudioDomainMapper.class, DTOToTrailerDomainMapper.class})
+@Mapper(componentModel = "spring", uses = {DTOToTrailerDomainMapper.class})
 public interface DTOToAnimeDomainMapper {
     @Mapping(target = "imageUrl", expression = "java(anime.getImages().getJpg().getImageUrl())")
     @Mapping(target = "smallImageUrl", expression = "java(anime.getImages().getJpg().getSmallImageUrl())")
