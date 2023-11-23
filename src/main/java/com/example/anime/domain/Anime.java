@@ -20,7 +20,7 @@ public class Anime {
     private String smallImageUrl;
     @Column(name = "large_image_url")
     private String largeImageUrl;
-    @OneToOne(mappedBy = "title")
+    @OneToOne(mappedBy = "title", cascade = CascadeType.ALL)
     private Trailer trailer;
     @ManyToMany
     @JoinTable(name = "title_genres",

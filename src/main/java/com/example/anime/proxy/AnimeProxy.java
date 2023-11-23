@@ -1,4 +1,4 @@
-package com.example.anime;
+package com.example.anime.proxy;
 
 import com.example.anime.DTO.AnimeDTO;
 import com.example.anime.DTO.GenreDTO;

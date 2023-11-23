@@ -3,7 +3,10 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <include file="db/changelog/genres-table-changelog.xml"/>
-    <include file="db/changelog/titles-table-changelog.xml"/>
+    <changeSet id="changeSynopsisType" author="artem">
+        <modifyDataType tableName="titles"
+                        columnName="synopsis"
+                        newDataType="text"/>
+    </changeSet>
 
 </databaseChangeLog>
