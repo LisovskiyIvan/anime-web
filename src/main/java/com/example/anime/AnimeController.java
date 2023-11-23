@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 @RestController
 @RequestMapping("/anime")
 public class AnimeController {
@@ -47,16 +51,16 @@ public class AnimeController {
     }
 
     @GetMapping("/add")
-    public void addAnime() {
-        AnimeDTO animeDTO = getAnime(1);
-        for (AnimeDTO.Anime anime : animeDTO.getAnime()) {
-            for (AnimeDTO.Anime.Studio studio : anime.getStudios()) {
-                studioRepo.save(studioDomainMapper.dtoToDomain(studio));
-
+    public void addAnime() throws InterruptedException {
+        for (int i = 1; i <= 210; i++) {
+            Thread.sleep(1100);
+            AnimeDTO animeDTO = getAnime(i);
+            for (AnimeDTO.Anime anime : animeDTO.getAnime()) {
+                for (AnimeDTO.Anime.Studio studio : anime.getStudios()) {
+                    studioRepo.save(studioDomainMapper.dtoToDomain(studio));
+                }
             }
-
         }
 
     }
-
 }
