@@ -14,6 +14,8 @@ public class Genre {
     private Long id;
     @Column(name = "name")
     private String name;
+    @Column(name = "name_rus")
+    private String nameRus;
     @ManyToMany
     @JoinTable(name = "title_genres",
             joinColumns = @JoinColumn(name = "genre"),

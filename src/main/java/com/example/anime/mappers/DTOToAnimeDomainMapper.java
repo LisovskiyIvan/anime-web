@@ -13,7 +13,6 @@ public interface DTOToAnimeDomainMapper {
     @Mapping(target = "airedFrom", expression = "java(anime.getAired().getFrom())")
     @Mapping(target = "airedTo", expression = "java(anime.getAired().getTo())")
     @Mapping(target = "airedStr", expression = "java(anime.getAired().getStringAired())")
-    @Mapping(target = "title", expression = "java(anime.getTitleEnglish())")
     Anime dtoToDomain(AnimeDTO.Anime anime);
 
 

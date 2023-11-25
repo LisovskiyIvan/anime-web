@@ -1,11 +1,13 @@
 package com.example.anime;
 
 import com.example.anime.DTO.AnimeDTO;
+import com.example.anime.DTO.DataForTranslateDTO;
 import com.example.anime.mappers.DTOToAnimeDomainMapper;
 import com.example.anime.mappers.DTOToGenreDomainMapper;
 import com.example.anime.mappers.DTOToStudioDomainMapper;
 import com.example.anime.mappers.DTOToTrailerDomainMapper;
 import com.example.anime.proxy.AnimeProxy;
+import com.example.anime.proxy.TranslateProxy;
 import com.example.anime.repos.AnimeRepo;
 import com.example.anime.repos.GenreRepo;
 import com.example.anime.repos.StudioRepo;
@@ -27,6 +29,7 @@ public class AnimeController {
     private final DTOToStudioDomainMapper studioDomainMapper;
     private final DTOToTrailerDomainMapper trailerDomainMapper;
     private final TrailerRepo trailerRepo;
+    private final TranslateProxy translateProxy;
 
 
     public AnimeController(AnimeProxy proxy,
@@ -37,7 +40,8 @@ public class AnimeController {
                            DTOToAnimeDomainMapper animeDomainMapper,
                            DTOToGenreDomainMapper genreDomainMapper,
                            DTOToStudioDomainMapper studioDomainMapper,
-                           DTOToTrailerDomainMapper trailerDomainMapper) {
+                           DTOToTrailerDomainMapper trailerDomainMapper,
+                           TranslateProxy translateProxy) {
         this.proxy = proxy;
         this.animeRepo = animeRepo;
         this.genreRepo = genreRepo;
@@ -47,6 +51,7 @@ public class AnimeController {
         this.studioDomainMapper = studioDomainMapper;
         this.trailerRepo = trailerRepo;
         this.trailerDomainMapper = trailerDomainMapper;
+        this.translateProxy = translateProxy;
     }
 
     @GetMapping
@@ -54,25 +59,49 @@ public class AnimeController {
         return proxy.getAnime(page);
     }
 
-//    @GetMapping("/add")
-//    public String addAnime() throws InterruptedException {
-//        for (int i = 1; i <= 210; i++) {
-//            Thread.sleep(1050);
-//            AnimeDTO animeDTO = getAnime(i);
-//            for (AnimeDTO.Anime anime : animeDTO.getAnime().subList(0,5)) {
-//                animeRepo.save(animeDomainMapper.dtoToDomain(anime));
-//                trailerRepo.save(trailerDomainMapper.dtoToDomain(anime));
-//
-//            }
-//        }
-//        return "Success";
-//    }
-
     @GetMapping("/add")
-    public String addAnime() {
-        AnimeDTO animeDTO = getAnime(1);
-        for (AnimeDTO.Anime anime : animeDTO.getAnime().subList(0, 2)) {
-            animeRepo.save(animeDomainMapper.dtoToDomain(anime));
+    public String addAnime() throws InterruptedException {
+        for (int i = 1; i <= 210; i++) {
+            Thread.sleep(1050);
+            AnimeDTO animeDTO = getAnime(i);
+            for (AnimeDTO.Anime anime : animeDTO.getAnime()) {
+                anime.getAired().setStringAired(
+                        translateProxy.translate(
+                                new DataForTranslateDTO("en", "ru", anime.getAired().getStringAired())
+                        )
+                );
+                anime.setDuration(
+                        translateProxy.translate(
+                                new DataForTranslateDTO("en", "ru", anime.getDuration())
+                        )
+                );
+                anime.setSeason(
+                        translateProxy.translate(
+                                new DataForTranslateDTO("en", "ru", anime.getSeason())
+                        )
+                );
+                anime.setSource(
+                        translateProxy.translate(
+                                new DataForTranslateDTO("en", "ru", anime.getSource())
+                        )
+                );
+                anime.setStatus(
+                        translateProxy.translate(
+                                new DataForTranslateDTO("en", "ru", anime.getStatus())
+                        )
+                );
+                anime.setSynopsis(
+                        translateProxy.translate(
+                                new DataForTranslateDTO("en", "ru", anime.getSynopsis())
+                        )
+                );
+                anime.setTitle(
+                        translateProxy.translate(
+                                new DataForTranslateDTO("en", "ru", anime.getTitleEnglish())
+                        )
+                );
+                animeRepo.save(animeDomainMapper.dtoToDomain(anime));
+            }
         }
         return "Success";
     }
