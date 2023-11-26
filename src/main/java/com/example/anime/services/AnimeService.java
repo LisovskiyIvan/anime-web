@@ -1,12 +1,9 @@
 package com.example.anime.services;
 
+import com.example.anime.DTO.requested.SingleAnimeDTO;
 import com.example.anime.domain.Anime;
-import com.example.anime.domain.Genre;
-import com.example.anime.domain.Studio;
 import com.example.anime.repos.AnimeRepo;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AnimeService {
@@ -23,9 +20,8 @@ public class AnimeService {
 //        return animeRepo.findStudios();
 //    }
 
-    public Anime getAnimeById(long id){
+    public Anime findAnimeById(long id){
         return animeRepo.findById(id).orElseThrow();
     }
-
 
 }

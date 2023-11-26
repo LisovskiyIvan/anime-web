@@ -1,6 +1,7 @@
 package com.example.anime.DTO.requested;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +18,11 @@ public class SingleAnimeDTO {
     private String smallImageUrl;
     @JsonProperty("large_image_url")
     private String largeImageUrl;
+    @JsonProperty("genres")
     private List<Genre> genres;
+    @JsonProperty("studios")
     private List<Studio> studios;
+    @JsonProperty("trailer")
     private Trailer trailer;
     @JsonProperty("title")
     private String title;
