@@ -1,6 +1,6 @@
 package com.example.anime;
 
-import com.example.anime.DTO.AnimeDTO;
+import com.example.anime.DTO.anilist.AnimeDTO;
 import com.example.anime.domain.Anime;
 import com.example.anime.mappers.DTOToAnimeDomainMapper;
 import org.junit.jupiter.api.Assertions;

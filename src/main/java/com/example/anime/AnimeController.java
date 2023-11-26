@@ -1,7 +1,6 @@
 package com.example.anime;
 
-import com.example.anime.DTO.AnimeDTO;
-import com.example.anime.DTO.DataForTranslateDTO;
+import com.example.anime.DTO.anilist.AnimeDTO;
 import com.example.anime.mappers.DTOToAnimeDomainMapper;
 import com.example.anime.mappers.DTOToGenreDomainMapper;
 import com.example.anime.mappers.DTOToStudioDomainMapper;
@@ -12,11 +11,12 @@ import com.example.anime.repos.AnimeRepo;
 import com.example.anime.repos.GenreRepo;
 import com.example.anime.repos.StudioRepo;
 import com.example.anime.repos.TrailerRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+@Slf4j
 @RestController
 @RequestMapping("/anime")
 public class AnimeController {
@@ -62,46 +62,16 @@ public class AnimeController {
     @GetMapping("/add")
     public String addAnime() throws InterruptedException {
         for (int i = 1; i <= 210; i++) {
-            Thread.sleep(1050);
+            Thread.sleep(1100);
             AnimeDTO animeDTO = getAnime(i);
             for (AnimeDTO.Anime anime : animeDTO.getAnime()) {
-                anime.getAired().setStringAired(
-                        translateProxy.translate(
-                                new DataForTranslateDTO("en", "ru", anime.getAired().getStringAired())
-                        )
-                );
-                anime.setDuration(
-                        translateProxy.translate(
-                                new DataForTranslateDTO("en", "ru", anime.getDuration())
-                        )
-                );
-                anime.setSeason(
-                        translateProxy.translate(
-                                new DataForTranslateDTO("en", "ru", anime.getSeason())
-                        )
-                );
-                anime.setSource(
-                        translateProxy.translate(
-                                new DataForTranslateDTO("en", "ru", anime.getSource())
-                        )
-                );
-                anime.setStatus(
-                        translateProxy.translate(
-                                new DataForTranslateDTO("en", "ru", anime.getStatus())
-                        )
-                );
-                anime.setSynopsis(
-                        translateProxy.translate(
-                                new DataForTranslateDTO("en", "ru", anime.getSynopsis())
-                        )
-                );
-                anime.setTitle(
-                        translateProxy.translate(
-                                new DataForTranslateDTO("en", "ru", anime.getTitleEnglish())
-                        )
-                );
-                animeRepo.save(animeDomainMapper.dtoToDomain(anime));
+                log.info("Anime: " + anime.getId() + " " + anime.getTitle() + " " + anime.getTitleEnglish());
+
+                if (animeRepo.findById((long) anime.getId()).isPresent() && anime.getTrailer().getUrl() != null){
+                    trailerRepo.save(trailerDomainMapper.dtoToDomain(anime));
+                }
             }
+            log.info("Page: " + i);
         }
         return "Success";
     }

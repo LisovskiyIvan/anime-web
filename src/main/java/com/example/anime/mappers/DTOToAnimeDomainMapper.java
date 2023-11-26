@@ -1,11 +1,11 @@
 package com.example.anime.mappers;
 
-import com.example.anime.DTO.AnimeDTO;
+import com.example.anime.DTO.anilist.AnimeDTO;
 import com.example.anime.domain.Anime;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {DTOToTrailerDomainMapper.class})
+@Mapper(componentModel = "spring")
 public interface DTOToAnimeDomainMapper {
     @Mapping(target = "imageUrl", expression = "java(anime.getImages().getJpg().getImageUrl())")
     @Mapping(target = "smallImageUrl", expression = "java(anime.getImages().getJpg().getSmallImageUrl())")

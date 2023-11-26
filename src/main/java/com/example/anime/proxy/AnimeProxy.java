@@ -1,7 +1,7 @@
 package com.example.anime.proxy;
 
-import com.example.anime.DTO.AnimeDTO;
-import com.example.anime.DTO.GenreDTO;
+import com.example.anime.DTO.anilist.AnimeDTO;
+import com.example.anime.DTO.anilist.GenreDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

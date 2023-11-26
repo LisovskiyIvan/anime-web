@@ -1,6 +1,6 @@
 package com.example.anime.mappers;
 
-import com.example.anime.DTO.AnimeDTO;
+import com.example.anime.DTO.anilist.AnimeDTO;
 import com.example.anime.domain.Trailer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,6 +1,6 @@
 package com.example.anime.proxy;
 
-import com.example.anime.DTO.DataForTranslateDTO;
+import com.example.anime.DTO.anilist.DataForTranslateDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

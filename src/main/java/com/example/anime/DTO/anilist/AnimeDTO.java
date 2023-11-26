@@ -1,4 +1,4 @@
-package com.example.anime.DTO;
+package com.example.anime.DTO.anilist;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

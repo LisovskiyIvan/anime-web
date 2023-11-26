@@ -1,4 +1,4 @@
-package com.example.anime.DTO;
+package com.example.anime.DTO.anilist;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

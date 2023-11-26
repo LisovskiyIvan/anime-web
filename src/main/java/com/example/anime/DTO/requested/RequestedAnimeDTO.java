@@ -1,4 +1,4 @@
-package com.example.anime.DTO;
+package com.example.anime.DTO.requested;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
