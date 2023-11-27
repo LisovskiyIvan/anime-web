@@ -11,9 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestedAnimeDTO {
     @JsonProperty("pagination")
-    Pagination pagination;
+    private Pagination pagination;
     @JsonProperty("data")
-    List<Anime> data;
+    private List<Anime> data;
 
     @Data
     public static class Pagination {
@@ -37,6 +37,7 @@ public class RequestedAnimeDTO {
         }
 
     }
+    @Data
     public static class Anime {
         @JsonProperty("id")
         private Long id;
@@ -46,8 +47,11 @@ public class RequestedAnimeDTO {
         private String smallImageUrl;
         @JsonProperty("large_image_url")
         private String largeImageUrl;
+        @JsonProperty("genres")
         private List<Genre> genres;
+        @JsonProperty("studios")
         private List<Studio> studios;
+        @JsonProperty("trailer")
         private Trailer trailer;
         @JsonProperty("title")
         private String title;
