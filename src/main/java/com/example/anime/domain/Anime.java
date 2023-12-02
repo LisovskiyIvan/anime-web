@@ -22,12 +22,12 @@ public class Anime {
     private String largeImageUrl;
     @OneToOne(mappedBy = "title", cascade = CascadeType.ALL)
     private Trailer trailer;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "title_genres",
             joinColumns = @JoinColumn(name = "title"),
             inverseJoinColumns = @JoinColumn(name = "genre"))
     private List<Genre> genres;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "title_studios",
             joinColumns = @JoinColumn(name = "title"),
             inverseJoinColumns = @JoinColumn(name = "studio"))

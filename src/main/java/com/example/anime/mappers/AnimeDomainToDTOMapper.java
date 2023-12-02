@@ -20,11 +20,11 @@ public interface AnimeDomainToDTOMapper {
 
     default RequestedAnimeDTO.Pagination getPagination(Page<Anime> anime) {
         RequestedAnimeDTO.Pagination pagination = new RequestedAnimeDTO.Pagination();
-        pagination.setCurrentPage(anime.getPageable().getPageNumber());
+        pagination.setCurrentPage(anime.getPageable().getPageNumber() + 1);
         pagination.setHasNextPage(anime.hasNext());
         pagination.setLastPage(anime.getTotalPages());
         RequestedAnimeDTO.Pagination.Items items = new RequestedAnimeDTO.Pagination.Items();
-        items.setCount(anime.getPageable().getPageSize());
+        items.setCount(anime.getNumberOfElements());
         items.setTotal((int) anime.getTotalElements());
         items.setPerPage(anime.getPageable().getPageSize());
         pagination.setItems(items);
