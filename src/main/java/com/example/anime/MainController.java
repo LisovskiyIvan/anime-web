@@ -28,54 +28,10 @@ public class MainController {
         this.domainToDTOMapper = domainToDTOMapper;
     }
 
-    //    @GetMapping
-//    public RequestedAnimeDTO getAnimeList(@RequestParam(required = false) List<String> filter,
-//                                          @RequestParam(required = false) List<String> type,
-//                                          @RequestParam(defaultValue = "1") int page,
-//                                          @RequestParam(defaultValue = "20") int limit) {
-//        page = page - 1;
-//        List<Anime> allAnime = animeService.findAll();
-//        List<Anime> data = new ArrayList<>();
-//        if (filter != null) {
-//            if (filter.contains("upcoming")) {
-//                data.addAll(allAnime
-//                        .stream()
-//                        .filter(anime -> anime.getStatus().equals("Анонс"))
-//                        .toList());
-//            }
-//            if (filter.contains("ongoing")) {
-//                data.addAll(allAnime
-//                        .stream()
-//                        .filter(anime -> anime.getStatus().equals("Выходит"))
-//                        .toList());
-//
-//            }
-//            if (filter.contains("byrating")) {
-//                data.sort((o1, o2) -> {
-//                    int result = 0;
-//                    if (o1.getScore() > o2.getScore()) {
-//                        result = -1;
-//                    }
-//                    if (o1.getScore() < o2.getScore()) {
-//                        result = 1;
-//                    }
-//                    if (o1.getScore() == o2.getScore()) {
-//                        result = 0;
-//                    }
-//                    return result;
-//                });
-//            }
-//        } else {
-//            data = allAnime;
-//        }
-//
-//        if (type != null) {
-//            data = animeService.getAnimeByType(type, data);
-//        }
-//
-//        return domainToDTOMapper.domainListToDTO(getAnime(page, limit, data));
-//    }
-
+    /**
+     * @param id - anime id
+     * @return anime DTO {@link SingleAnimeDTO}
+     */
     @GetMapping("/{id}")
     public SingleAnimeDTO getAnimeById(@PathVariable long id) {
         return domainToDTOMapper.domainToDTO(animeService.findAnimeById(id));
