@@ -5,14 +5,13 @@ import com.example.anime.DTO.requested.SingleAnimeDTO;
 import com.example.anime.domain.Anime;
 import com.example.anime.mappers.AnimeDomainToDTOMapper;
 import com.example.anime.services.AnimeService;
-import jdk.jfr.Description;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 @Slf4j
@@ -56,7 +55,7 @@ public class MainController {
         List<String> statuses = getStatuses(filter);
         List<String> types = getTypes(type);
         if (!statuses.isEmpty() || !types.isEmpty()) {
-            result = getAnimePage(page, limit, animeService.findAllByStatusAndType(statuses, types));
+            result = animeService.findAllByStatusAndType(statuses, types, animeService.createPageRequest(page, limit, sortBy));
         } else {
             result = animeService.findAll(animeService.createPageRequest(page, limit, sortBy));
         }
@@ -82,14 +81,6 @@ public class MainController {
             }
         }
         return statuses;
-    }
-
-    private Page<Anime> getAnimePage(int page, int size, List<Anime> data) {
-        Pageable pageRequest = PageRequest.of(page, size);
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), data.size());
-        List<Anime> pageContent = data.subList(start, end);
-        return new PageImpl<>(pageContent, pageRequest, data.size());
     }
 
     private String getStatus(String filter) {
