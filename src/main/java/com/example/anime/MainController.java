@@ -3,8 +3,11 @@ package com.example.anime;
 import com.example.anime.DTO.requested.RequestedAnimeDTO;
 import com.example.anime.DTO.requested.SingleAnimeDTO;
 import com.example.anime.domain.Anime;
+import com.example.anime.domain.Genre;
 import com.example.anime.mappers.AnimeDomainToDTOMapper;
+import com.example.anime.repos.GenreRepo;
 import com.example.anime.services.AnimeService;
+import com.example.anime.services.GenreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +19,21 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@SuppressWarnings("unused")
+@CrossOrigin
 @RequestMapping("/anime")
 public class MainController {
 
     private final AnimeService animeService;
     private final AnimeDomainToDTOMapper domainToDTOMapper;
+    private final GenreService genreService;
 
-    public MainController(AnimeService animeService, AnimeDomainToDTOMapper domainToDTOMapper) {
+    public MainController(AnimeService animeService,
+                          AnimeDomainToDTOMapper domainToDTOMapper,
+                          GenreService genreService) {
         this.animeService = animeService;
         this.domainToDTOMapper = domainToDTOMapper;
+        this.genreService = genreService;
     }
 
     /**
@@ -47,6 +56,7 @@ public class MainController {
     @GetMapping
     public RequestedAnimeDTO getAnimeList(@RequestParam(required = false) List<String> filter,
                                           @RequestParam(required = false) String sortBy,
+                                          @RequestParam(required = false) List<String> genre,
                                           @RequestParam(required = false) List<String> type,
                                           @RequestParam(defaultValue = "1") int page,
                                           @RequestParam(defaultValue = "20") int limit) {
@@ -54,8 +64,9 @@ public class MainController {
         page = page - 1;
         List<String> statuses = getStatuses(filter);
         List<String> types = getTypes(type);
-        if (!statuses.isEmpty() || !types.isEmpty()) {
-            result = animeService.findAllByStatusAndType(statuses, types, animeService.createPageRequest(page, limit, sortBy));
+        List<String> genres = getGenres(genre);
+        if (!statuses.isEmpty() || !types.isEmpty() || !genres.isEmpty()) {
+            result = animeService.findAllByParams(statuses, types, genres, animeService.createPageRequest(page, limit, sortBy));
         } else {
             result = animeService.findAll(animeService.createPageRequest(page, limit, sortBy));
         }
@@ -81,6 +92,23 @@ public class MainController {
             }
         }
         return statuses;
+    }
+    private List<String> getGenres(List<String> filter) {
+        List<String> genres = new ArrayList<>();
+        if (filter != null) {
+            for (String filterName : filter) {
+                genres.add(getGenre(filterName));
+            }
+        }
+        return genres;
+    }
+
+    private String getGenre(String filter) {
+        Map<String, String> genre = new HashMap<>();
+        genre.put("Adventure", "Приключения");
+        genre.put("Action", "Экшен");
+        genre.put("Shounen", "Сенэн");
+        return genre.get(filter);
     }
 
     private String getStatus(String filter) {

@@ -10,19 +10,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-//@CacheConfig(cacheNames = "anime")
+
+@CacheConfig(cacheNames = "anime")
 @Service
 public class AnimeService {
     private final AnimeRepo animeRepo;
+
     public AnimeService(AnimeRepo animeRepo) {
         this.animeRepo = animeRepo;
     }
-    // @Cacheable(key = "#id")
-    public Anime findAnimeById(long id){
+
+    @Cacheable(key = "#id")
+    public Anime findAnimeById(long id) {
         return animeRepo.findById(id).orElseThrow();
     }
+
     public Page<Anime> findAll(Pageable pageable) {
         return animeRepo.findAll(pageable);
     }
@@ -34,8 +37,8 @@ public class AnimeService {
         return PageRequest.of(page, size, Sort.by(sortField).descending());
     }
 
-    public Page<Anime> findAllByStatusAndType(List<String> status, List<String> type, Pageable pageable) {
-        return animeRepo.findAnimeByStatusAndTypeIn(status, type, pageable);
+    public Page<Anime> findAllByParams(List<String> status, List<String> type, List<String> genre, Pageable pageable) {
+        return animeRepo.findAllByParams(status, type, genre, pageable);
     }
 
 }
