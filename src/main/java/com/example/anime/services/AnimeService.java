@@ -1,6 +1,7 @@
 package com.example.anime.services;
 
 import com.example.anime.domain.Anime;
+import com.example.anime.domain.Genre;
 import com.example.anime.repos.AnimeRepo;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -37,7 +38,7 @@ public class AnimeService {
         return PageRequest.of(page, size, Sort.by(sortField).descending());
     }
 
-    public Page<Anime> findAllByParams(List<String> status, List<String> type, List<String> genre, Pageable pageable) {
+    public Page<Anime> findAllByParams(List<String> status, List<String> type, List<Genre> genre, Pageable pageable) {
         return animeRepo.findAllByParams(status, type, genre, pageable);
     }
 

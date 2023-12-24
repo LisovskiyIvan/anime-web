@@ -1,4 +1,4 @@
-package com.example.anime;
+package com.example.anime.controllers;
 
 import com.example.anime.DTO.requested.RequestedAnimeDTO;
 import com.example.anime.DTO.requested.SingleAnimeDTO;
@@ -10,6 +10,7 @@ import com.example.anime.services.AnimeService;
 import com.example.anime.services.GenreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class MainController {
     /**
      * @param filter - anime by status (upcoming, ongoing, finished)
      * @param sortBy - sort by (score)
+     * @param genre  - required genres
      * @param type   - anime by type (TV, ONA, OVA ,Special, Movie, Music)
      * @param page   - requested page
      * @param limit  - max elements per page
@@ -64,11 +66,12 @@ public class MainController {
         page = page - 1;
         List<String> statuses = getStatuses(filter);
         List<String> types = getTypes(type);
-        List<String> genres = getGenres(genre);
+        List<Genre> genres = getGenres(genre);
+        Pageable pageable = animeService.createPageRequest(page, limit, sortBy);
         if (!statuses.isEmpty() || !types.isEmpty() || !genres.isEmpty()) {
-            result = animeService.findAllByParams(statuses, types, genres, animeService.createPageRequest(page, limit, sortBy));
+            result = animeService.findAllByParams(statuses, types, genres, pageable);
         } else {
-            result = animeService.findAll(animeService.createPageRequest(page, limit, sortBy));
+            result = animeService.findAll(pageable);
         }
 
         return domainToDTOMapper.domainListToDTO(result);
@@ -93,22 +96,15 @@ public class MainController {
         }
         return statuses;
     }
-    private List<String> getGenres(List<String> filter) {
-        List<String> genres = new ArrayList<>();
+
+    private List<Genre> getGenres(List<String> filter) {
+        List<Genre> genres = new ArrayList<>();
         if (filter != null) {
             for (String filterName : filter) {
-                genres.add(getGenre(filterName));
+                genres.add(genreService.findGenreByName(filterName));
             }
         }
         return genres;
-    }
-
-    private String getGenre(String filter) {
-        Map<String, String> genre = new HashMap<>();
-        genre.put("Adventure", "Приключения");
-        genre.put("Action", "Экшен");
-        genre.put("Shounen", "Сенэн");
-        return genre.get(filter);
     }
 
     private String getStatus(String filter) {

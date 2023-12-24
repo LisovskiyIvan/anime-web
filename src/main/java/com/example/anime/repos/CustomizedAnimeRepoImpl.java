@@ -1,24 +1,19 @@
 package com.example.anime.repos;
 
 import com.example.anime.domain.Anime;
+import com.example.anime.domain.Genre;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 public class CustomizedAnimeRepoImpl implements CustomizedAnimeRepo<Anime> {
@@ -27,7 +22,7 @@ public class CustomizedAnimeRepoImpl implements CustomizedAnimeRepo<Anime> {
     private EntityManager entityManager;
 
     @Override
-    public Page<Anime> findAllByParams(List<String> status, List<String> type, List<String> genre, Pageable pageable) {
+    public Page<Anime> findAllByParams(List<String> status, List<String> type, List<Genre> genre, Pageable pageable) {
         List<Anime> result;
         String sort = getSort(pageable);
         long animeTotal = createCountQuery(status, type, genre).getSingleResult();
@@ -39,64 +34,54 @@ public class CustomizedAnimeRepoImpl implements CustomizedAnimeRepo<Anime> {
 
     }
 
-    private TypedQuery<Anime> createQuery(List<String> status, List<String> type, List<String> genre, String sortField) {
+    private TypedQuery<Anime> createQuery(List<String> status, List<String> type, List<Genre> genre, String sortField) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Anime> criteriaQuery = criteriaBuilder.createQuery(Anime.class);
-        Root<Anime> root = criteriaQuery.from(Anime.class);
-        Predicate predicateForStatus;
-        Predicate predicateForType;
-        Predicate predicateForGenre;
+        Root<Anime> anime = criteriaQuery.from(Anime.class);
         List<Predicate> predicateList = new ArrayList<>();
         if (!status.isEmpty()) {
-            predicateForStatus = root.get("status").in(status);
-            predicateList.add(predicateForStatus);
+            predicateList.add(anime.get("status").in(status));
         }
         if (!type.isEmpty()) {
-            predicateForType = root.get("type").in(type);
-            predicateList.add(predicateForType);
+            predicateList.add(anime.get("type").in(type));
         }
         if (!genre.isEmpty()) {
-            predicateForGenre = root.get("genres").in(genre);
-            predicateList.add(predicateForGenre);
+            for (Genre g : genre) {
+                predicateList.add(criteriaBuilder.isMember(g, anime.get("genres")));
+            }
+            //predicateList.add(anime.get("genres").in(genre));
         }
         Predicate[] predicates = predicateList.toArray(new Predicate[0]);
         Predicate finalPredicate = criteriaBuilder.and(predicates);
         CriteriaQuery<Anime> finalQuery = criteriaQuery
-                .select(root)
+                .select(anime)
                 .where(finalPredicate);
         if (!sortField.isEmpty()) {
-            finalQuery = criteriaQuery
-                    .select(root)
-                    .where(finalPredicate)
-                    .orderBy(criteriaBuilder.desc(root.get(sortField)));
+            finalQuery.orderBy(criteriaBuilder.desc(anime.get(sortField)));
         }
         return entityManager.createQuery(finalQuery);
     }
 
-    private TypedQuery<Long> createCountQuery(List<String> status, List<String> type, List<String> genre) {
+    private TypedQuery<Long> createCountQuery(List<String> status, List<String> type, List<Genre> genre) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
-        Root<Anime> root = criteriaQuery.from(Anime.class);
-        Predicate predicateForStatus;
-        Predicate predicateForType;
-        Predicate predicateForGenre;
+        Root<Anime> anime = criteriaQuery.from(Anime.class);
         List<Predicate> predicateList = new ArrayList<>();
         if (!status.isEmpty()) {
-            predicateForStatus = root.get("status").in(status);
-            predicateList.add(predicateForStatus);
+            predicateList.add(anime.get("status").in(status));
         }
         if (!type.isEmpty()) {
-
-            predicateForType = root.get("type").in(type);
-            predicateList.add(predicateForType);
+            predicateList.add(anime.get("type").in(type));
         }
         if (!genre.isEmpty()) {
-            predicateForGenre = root.get("genres").in(genre);
-            predicateList.add(predicateForGenre);
+            for (Genre g : genre) {
+                predicateList.add(criteriaBuilder.isMember(g, anime.get("genres")));
+            }
+            //predicateList.add(anime.get("genres").in(genre));
         }
         Predicate[] predicates = predicateList.toArray(new Predicate[0]);
         Predicate finalPredicate = criteriaBuilder.and(predicates);
-        return entityManager.createQuery(criteriaQuery.select(criteriaBuilder.count(root)).where(finalPredicate));
+        return entityManager.createQuery(criteriaQuery.select(criteriaBuilder.count(anime)).where(finalPredicate));
     }
 
 

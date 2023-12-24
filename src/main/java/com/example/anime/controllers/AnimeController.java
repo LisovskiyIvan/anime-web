@@ -1,4 +1,4 @@
-package com.example.anime;
+package com.example.anime.controllers;
 
 import com.example.anime.DTO.anilist.AnimeDTO;
 import com.example.anime.mappers.DTOToAnimeDomainMapper;

@@ -16,7 +16,7 @@ public class Genre {
     private String name;
     @Column(name = "name_rus")
     private String nameRus;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "title_genres",
             joinColumns = @JoinColumn(name = "genre"),
             inverseJoinColumns = @JoinColumn(name = "title"))

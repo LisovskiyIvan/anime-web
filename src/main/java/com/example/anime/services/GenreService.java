@@ -13,9 +13,6 @@ public class GenreService {
         this.genreRepo = genreRepo;
     }
 
-    public Map<String, String> getGenreNames() {
-        return genreRepo.getGenreNames();
-    }
 
     public Genre findGenreByName(String genreName) {
         return genreRepo.findGenreByName(genreName);
