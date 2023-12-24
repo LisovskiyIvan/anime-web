@@ -5,8 +5,10 @@ import com.example.anime.domain.Genre;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class CustomizedAnimeRepoImpl implements CustomizedAnimeRepo<Anime> {
 
     @PersistenceContext
@@ -49,7 +50,6 @@ public class CustomizedAnimeRepoImpl implements CustomizedAnimeRepo<Anime> {
             for (Genre g : genre) {
                 predicateList.add(criteriaBuilder.isMember(g, anime.get("genres")));
             }
-            //predicateList.add(anime.get("genres").in(genre));
         }
         Predicate[] predicates = predicateList.toArray(new Predicate[0]);
         Predicate finalPredicate = criteriaBuilder.and(predicates);
@@ -77,7 +77,6 @@ public class CustomizedAnimeRepoImpl implements CustomizedAnimeRepo<Anime> {
             for (Genre g : genre) {
                 predicateList.add(criteriaBuilder.isMember(g, anime.get("genres")));
             }
-            //predicateList.add(anime.get("genres").in(genre));
         }
         Predicate[] predicates = predicateList.toArray(new Predicate[0]);
         Predicate finalPredicate = criteriaBuilder.and(predicates);
