@@ -50,6 +50,26 @@ public class MainController {
      * @param filter - anime by status (upcoming, ongoing, finished)
      * @param sortBy - sort by (score)
      * @param genre  - required genres
+     * "Sports"
+     * "Fantasy"
+     * "Boys Love"
+     * "Horror"
+     * "Drama"
+     * "Suspense"
+     * "Sci-Fi"
+     * "Romance"
+     * "Mystery"
+     * "Erotica"
+     * "Slice of Life"
+     * "Girls Love"
+     * "Award Winning"
+     * "Supernatural"
+     * "Adventure"
+     * "Gourmet"
+     * "Action"
+     * "Comedy"
+     * "Avant Garde"
+     * "Ecchi"
      * @param type   - anime by type (TV, ONA, OVA ,Special, Movie, Music)
      * @param page   - requested page
      * @param limit  - max elements per page
@@ -111,7 +131,7 @@ public class MainController {
         Map<String, String> status = new HashMap<>();
         status.put("upcoming", "Анонс");
         status.put("ongoing", "Выходит");
-        status.put("finished", "Вышел");
+        status.put("finished", "Завершен");
         return status.get(filter);
     }
 

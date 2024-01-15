@@ -1,5 +1,3 @@
-server:
-  port: 8081
 feign:
   client:
     config:
@@ -12,11 +10,11 @@ spring:
     exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:8080/anime
+    url: jdbc:postgresql://localhost:5432/anime
     username: postgres
     password: 3817!
   jpa:
     generate-ddl: false
   liquibase:
-    enabled: true
+    enabled: false
     change-log: classpath:db/changelog/master.xml
