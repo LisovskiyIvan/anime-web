@@ -5,7 +5,6 @@ import com.example.anime.DTO.requested.SingleAnimeDTO;
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.Genre;
 import com.example.anime.mappers.AnimeDomainToDTOMapper;
-import com.example.anime.repos.GenreRepo;
 import com.example.anime.services.AnimeService;
 import com.example.anime.services.GenreService;
 import lombok.extern.slf4j.Slf4j;

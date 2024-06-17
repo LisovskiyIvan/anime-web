@@ -38,6 +38,10 @@ public class AnimeService {
         return PageRequest.of(page, size, Sort.by(sortField).descending());
     }
 
+    public List<Anime> findAllByStatus(String status) {
+        return animeRepo.findAllByStatus(status);
+    }
+
     public Page<Anime> findAllByParams(List<String> status, List<String> type, List<Genre> genre, Pageable pageable) {
         return animeRepo.findAllByParams(status, type, genre, pageable);
     }
