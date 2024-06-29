@@ -22,15 +22,15 @@ import java.util.Map;
 @SuppressWarnings("unused")
 @CrossOrigin
 @RequestMapping("/anime")
-public class MainController {
+public class AnimeController {
 
     private final AnimeService animeService;
     private final AnimeDomainToDTOMapper domainToDTOMapper;
     private final GenreService genreService;
 
-    public MainController(AnimeService animeService,
-                          AnimeDomainToDTOMapper domainToDTOMapper,
-                          GenreService genreService) {
+    public AnimeController(AnimeService animeService,
+                           AnimeDomainToDTOMapper domainToDTOMapper,
+                           GenreService genreService) {
         this.animeService = animeService;
         this.domainToDTOMapper = domainToDTOMapper;
         this.genreService = genreService;
