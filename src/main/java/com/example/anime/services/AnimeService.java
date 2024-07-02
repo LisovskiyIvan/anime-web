@@ -2,6 +2,7 @@ package com.example.anime.services;
 
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.Genre;
+import com.example.anime.exceptions.NoSuchAnimeException;
 import com.example.anime.repos.AnimeRepo;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,7 +25,7 @@ public class AnimeService {
 
     @Cacheable(key = "#id")
     public Anime findAnimeById(long id) {
-        return animeRepo.findById(id).orElseThrow();
+        return animeRepo.findById(id).orElseThrow(NoSuchAnimeException::new);
     }
 
     public Page<Anime> findAll(Pageable pageable) {
