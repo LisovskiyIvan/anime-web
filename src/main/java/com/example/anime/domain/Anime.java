@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -35,6 +36,11 @@ public class Anime {
             joinColumns = @JoinColumn(name = "title"),
             inverseJoinColumns = @JoinColumn(name = "studio"))
     private List<Studio> studios;
+    @ToString.Exclude
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "anime",
+            cascade = CascadeType.ALL)
+    private Set<UserAnime> animeUsers;
     @Column(name = "title")
     private String title;
     @Column(name = "title_english")
