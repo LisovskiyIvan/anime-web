@@ -47,4 +47,6 @@ public class AnimeService {
         return animeRepo.findAllByParams(status, type, genre, pageable);
     }
 
+
+
 }
