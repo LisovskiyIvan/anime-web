@@ -3,6 +3,7 @@ package com.example.anime.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Studio {
     private Long id;
     @Column(name = "name")
     private String name;
+    @ToString.Exclude
     @ManyToMany
     @JoinTable(name = "title_studios",
             joinColumns = @JoinColumn(name = "studio"),

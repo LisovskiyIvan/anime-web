@@ -13,6 +13,9 @@ import java.util.List;
 @RequestMapping("/user/{username}/myList")
 public class UserAnimeController {
 
+    public UserAnimeController() {
+    }
+
     @GetMapping("/{status}")
     public RequestedAnimeDTO getUserAnime(@PathVariable(value = "username") String username,
                                @PathVariable(value = "status") String status) {

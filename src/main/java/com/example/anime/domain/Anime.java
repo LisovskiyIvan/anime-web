@@ -3,6 +3,7 @@ package com.example.anime.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -22,11 +23,13 @@ public class Anime {
     private String largeImageUrl;
     @OneToOne(mappedBy = "title", cascade = CascadeType.ALL)
     private Trailer trailer;
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "title_genres",
             joinColumns = @JoinColumn(name = "title"),
             inverseJoinColumns = @JoinColumn(name = "genre"))
     private List<Genre> genres;
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "title_studios",
             joinColumns = @JoinColumn(name = "title"),
