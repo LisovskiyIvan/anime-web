@@ -9,10 +9,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@EnableTransactionManagement
 public class SecurityConfig {
 
     @Bean
@@ -25,7 +27,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 //.cors(AbstractHttpConfigurer::disable)
-                //.authorizeHttpRequests(authorize -> authorize.requestMatchers("/myList").hasRole("USER"))
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/user/{username}/myList/*").hasRole("USER"))
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(("/**")).permitAll())
                 .build();
     }
