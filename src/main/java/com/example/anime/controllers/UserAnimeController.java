@@ -6,10 +6,7 @@ import com.example.anime.domain.User;
 import com.example.anime.services.UserAnimeService;
 import com.example.anime.services.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user/{username}/myList")
@@ -21,14 +18,15 @@ public class UserAnimeController {
 
     @GetMapping("/{status}")
     public RequestedAnimeDTO getUserAnime(@PathVariable(value = "username") String username,
-                               @PathVariable(value = "status") String status) {
+                                          @PathVariable(value = "status") String status,
+                                          @RequestParam(defaultValue = "1") int page,
+                                          @RequestParam(defaultValue = "20") int limit) {
         if (Status.getAllStatuses().contains(status)) {
             User user = (User) userDetailsService.loadUserByUsername(username);
             userAnimeService.getUserAnimeList(user, Status.valueOf(status).getRusName());
         }
         return null;
     }
-
 
 
 }
