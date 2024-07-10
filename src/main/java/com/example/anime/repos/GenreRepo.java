@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface GenreRepo extends JpaRepository<Genre, Long> {
 
-    Genre findGenreByName(String name);
+    Optional<Genre> findGenreByName(String name);
+
 }
