@@ -6,6 +6,8 @@ import com.example.anime.domain.Anime;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -30,4 +32,12 @@ public interface AnimeDomainToDTOMapper {
         pagination.setItems(items);
         return pagination;
     }
+
+    default Page<Anime> createPage(List<Anime> anime, Pageable pageRequest) {
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), anime.size());
+        List<Anime> pageContent = anime.subList(start, end);
+        return new PageImpl<>(pageContent, pageRequest, anime.size());
+    }
+
 }

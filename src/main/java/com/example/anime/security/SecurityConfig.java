@@ -27,7 +27,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 //.cors(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/user/{username}/myList/*").hasRole("USER"))
+                //.authorizeHttpRequests(authorize -> authorize.requestMatchers("/user/{username}/myList/*").hasRole("USER"))
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(("/**")).permitAll())
                 .build();
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "trailers")
@@ -29,6 +30,7 @@ public class Trailer {
     private String largeImageUrl;
     @Column(name = "max_image_url")
     private String maximumImageUrl;
+    @ToString.Exclude
     @OneToOne
     private Anime title;
 

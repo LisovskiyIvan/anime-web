@@ -6,6 +6,7 @@ import com.example.anime.domain.UserAnime;
 import com.example.anime.domain.UserAnimeId;
 import com.example.anime.repos.UserAnimeRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +25,9 @@ public class UserAnimeService {
         userAnimeRepo.save(userAnime);
     }
 
-    @Transactional
     public List<Anime> getUserAnimeList(User user, String status) {
-        return user.getUserAnime().stream()
-                .filter(userAnime -> !Objects.equals(status, "all") ? userAnime.getStatus().equals(status) : !userAnime.getStatus().isEmpty())
+        return userAnimeRepo.findByUser(user).stream()
+                .filter(userAnime -> !Objects.equals(status, "все") ? userAnime.getStatus().equals(status) : !userAnime.getStatus().isEmpty())
                 .map(UserAnime::getAnime)
                 .toList();
     }
