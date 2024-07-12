@@ -6,9 +6,7 @@ import com.example.anime.domain.UserAnime;
 import com.example.anime.domain.UserAnimeId;
 import com.example.anime.repos.UserAnimeRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
