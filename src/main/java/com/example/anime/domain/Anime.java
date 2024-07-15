@@ -2,6 +2,7 @@ package com.example.anime.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -22,21 +23,23 @@ public class Anime {
     private String smallImageUrl;
     @Column(name = "large_image_url")
     private String largeImageUrl;
-    @OneToOne(mappedBy = "title", cascade = CascadeType.ALL)
-    private Trailer trailer;
+
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "title_genres",
             joinColumns = @JoinColumn(name = "title"),
             inverseJoinColumns = @JoinColumn(name = "genre"))
     private List<Genre> genres;
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "title_studios",
             joinColumns = @JoinColumn(name = "title"),
             inverseJoinColumns = @JoinColumn(name = "studio"))
     private List<Studio> studios;
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "anime",
             cascade = CascadeType.ALL)

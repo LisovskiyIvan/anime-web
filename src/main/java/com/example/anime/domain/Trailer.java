@@ -3,6 +3,7 @@ package com.example.anime.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -31,7 +32,9 @@ public class Trailer {
     @Column(name = "max_image_url")
     private String maximumImageUrl;
     @ToString.Exclude
-    @OneToOne
+    @EqualsAndHashCode.Exclude
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "title_id")
     private Anime title;
 
 }
