@@ -1,5 +1,6 @@
 package com.example.anime;
 
+import com.example.anime.domain.Anime;
 import com.example.anime.domain.User;
 import com.example.anime.domain.UserAnime;
 import com.example.anime.repos.UserAnimeRepo;
@@ -33,6 +34,7 @@ public class RepoTests {
 
 
     }
+
 
 
 }
