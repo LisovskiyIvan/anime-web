@@ -2,7 +2,6 @@ package com.example.anime;
 
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.User;
-import com.example.anime.repos.UserAnimeRepo;
 import com.example.anime.services.AnimeService;
 import com.example.anime.services.UserAnimeService;
 import com.example.anime.services.UserDetailsServiceImpl;
@@ -69,12 +68,37 @@ public class UserTests {
 
 
     }
+    @Test
+    public void deleteUserAnimeTest(){
+        User user = (User) userDetailsService.loadUserByUsername("suzume");
+        List<Anime> listOfCompleted = userAnimeService.getUserAnimeList(user, "просмотрено");
+        Anime anime = listOfCompleted.get(0);
+
+        userAnimeService.deleteAnime(user, anime.getId());
+        List<Anime> listOfCompletedAfterDeleting = userAnimeService.getUserAnimeList(user, "просмотрено");
+
+        Assertions.assertFalse(listOfCompletedAfterDeleting.contains(anime));
+
+    }
+
 
     @Test
     public void enumStatusesTest() {
-        String status = "completed";
+        String statusCompleted = "completed";
+        String statusOnhold = "onhold";
+        String statusWatching = "watching";
+        String statusRewatching = "rewatching";
+        String statusPlanned = "planned";
+        String statusAll = "all";
+        String statusDropped = "dropped";
 
-        Assertions.assertEquals("просмотрено", Status.valueOf(status.toUpperCase()).getRusName());
+        Assertions.assertEquals("просмотрено", Status.valueOf(statusCompleted.toUpperCase()).getRusName());
+        Assertions.assertEquals("отложено", Status.valueOf(statusOnhold.toUpperCase()).getRusName());
+        Assertions.assertEquals("смотрю", Status.valueOf(statusWatching.toUpperCase()).getRusName());
+        Assertions.assertEquals("пересматриваю", Status.valueOf(statusRewatching.toUpperCase()).getRusName());
+        Assertions.assertEquals("запланировано", Status.valueOf(statusPlanned.toUpperCase()).getRusName());
+        Assertions.assertEquals("все", Status.valueOf(statusAll.toUpperCase()).getRusName());
+        Assertions.assertEquals("брошено", Status.valueOf(statusDropped.toUpperCase()).getRusName());
 
     }
 

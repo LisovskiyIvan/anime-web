@@ -4,6 +4,7 @@ import com.example.anime.domain.Anime;
 import com.example.anime.domain.User;
 import com.example.anime.domain.UserAnime;
 import com.example.anime.domain.UserAnimeId;
+import com.example.anime.exceptions.NoSuchAnimeException;
 import com.example.anime.repos.UserAnimeRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,11 @@ public class UserAnimeService {
         UserAnimeId userAnimeId = new UserAnimeId(user.getId(), anime.getId());
         UserAnime userAnime = new UserAnime(userAnimeId, status, user, anime);
         userAnimeRepo.save(userAnime);
+    }
+
+    public void deleteAnime(User user, long id) {
+        UserAnime ua = userAnimeRepo.findById(new UserAnimeId(user.getId(), id)).orElseThrow(NoSuchAnimeException::new);
+        userAnimeRepo.delete(ua);
     }
 
     public List<Anime> getUserAnimeList(User user, String status) {

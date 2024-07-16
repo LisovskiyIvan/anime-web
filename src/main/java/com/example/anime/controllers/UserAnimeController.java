@@ -50,4 +50,11 @@ public class UserAnimeController {
         Anime anime = animeService.findAnimeById(animeId);
         userAnimeService.saveAnimeToUser(user, anime, status);
     }
+
+    @DeleteMapping("/delete")
+    public void deleteAnime(@PathVariable(value = "username") String username,
+                            @RequestParam("id") long animeId) {
+        User user = (User) userDetailsService.loadUserByUsername(username);
+        userAnimeService.deleteAnime(user, animeId);
+    }
 }
