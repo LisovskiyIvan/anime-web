@@ -40,11 +40,11 @@ public class AnimeService {
     }
 
     public List<Anime> findAllByStatus(String status) {
-        return animeRepo.findAllByStatus(status);
+        return animeRepo.findAllByStatus(status).orElseThrow(NoSuchAnimeException::new);
     }
 
     public Page<Anime> findAllByParams(List<String> status, List<String> type, List<Genre> genre, Pageable pageable) {
-        return animeRepo.findAllByParams(status, type, genre, pageable);
+        return animeRepo.findAllByParams(status, type, genre, pageable).orElseThrow(NoSuchAnimeException::new);
     }
 
 

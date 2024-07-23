@@ -75,8 +75,8 @@ public class AdminController {
         int upcomingCount = proxy.getPageCount("upcoming").getPagination().getLastPage();
         log.info(proxy.getPageCount("upcoming").toString());
         log.info("Upcomings pages: " + upcomingCount);
-        List<Anime> ongAnime = animeRepo.findAllByStatus("Выходит");
-        List<Anime> upcAnime = animeRepo.findAllByStatus("Анонс");
+        List<Anime> ongAnime = animeRepo.findAllByStatus("Выходит").get();
+        List<Anime> upcAnime = animeRepo.findAllByStatus("Анонс").get();
         List<Studio> studios = studioRepo.findAll();
         List<Trailer> trailers = trailerRepo.findAll();
         for (int i = 1; i <= ongoingCount; i++) {
