@@ -26,7 +26,7 @@ public class RepoTests {
     public void userAnimeListTest() {
         User user = userRepo.findByUsername("suzume").get();
 
-        List<UserAnime> userAnime = userAnimeRepo.findByUser(user);
+        List<UserAnime> userAnime = userAnimeRepo.findByUser(user).get();
 
         Assertions.assertNotNull(userAnime);
         System.out.println(userAnime.get(0));

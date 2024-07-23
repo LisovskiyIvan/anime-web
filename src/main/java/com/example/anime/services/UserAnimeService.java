@@ -30,7 +30,7 @@ public class UserAnimeService {
     }
 
     public List<Anime> getUserAnimeList(User user, String status) {
-        return userAnimeRepo.findByUser(user).stream()
+        return userAnimeRepo.findByUser(user).orElseThrow(NoSuchAnimeException::new).stream()
                 .filter(userAnime -> !Objects.equals(status, "все") ? userAnime.getStatus().equals(status) : !userAnime.getStatus().isEmpty())
                 .map(UserAnime::getAnime)
                 .toList();
