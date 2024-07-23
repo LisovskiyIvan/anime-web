@@ -5,8 +5,13 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: basic
+security:
+  remember-me:
+    key: d9cfd16062992f2f2139dbb93dc68ab24557e7dc9b581c82466216f5dcbaf795
+    token-validity: 15638400
+origins:
+  main: "*"
 spring:
-  autoconfigure:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/anime

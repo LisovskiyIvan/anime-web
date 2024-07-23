@@ -16,7 +16,7 @@ public class RestExceptionHandler {
         return "Anime not found";
     }
 
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = InvalidStatusException.class)
     protected String handleInvalidStatus(
             RuntimeException ex, WebRequest request) {
