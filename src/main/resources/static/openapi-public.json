@@ -3,7 +3,7 @@
   "info": {
     "title": "Public Anime REST API",
     "description": "Public Anime API Docs",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "servers": [
     {
@@ -12,6 +12,31 @@
     }
   ],
   "paths": {
+    "/genres": {
+      "get": {
+        "tags": [
+          "genre list"
+        ],
+        "summary": "Get list of genres",
+        "description": "Returns a list of all genres in the `RequestedGenreDTO` format.",
+        "operationId": "getGenres",
+        "responses": {
+          "200": {
+            "description": "Successful request. Returns a list of genres.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestedGenreDTO"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
     "/anime": {
       "get": {
         "tags": [
@@ -319,6 +344,42 @@
   },
   "components": {
     "schemas": {
+      "RequestedGenreDTO": {
+        "type": "object",
+        "properties": {
+          "genres": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Genre"
+            }
+          }
+        },
+        "required": [
+          "genres"
+        ]
+      },
+      "Genre": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Уникальный идентификатор жанра."
+          },
+          "name": {
+            "type": "string",
+            "description": "Название жанра."
+          },
+          "nameRus": {
+            "type": "string",
+            "description": "Название жанра на русском языке."
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
       "SingleAnimeDTO": {
         "type": "object",
         "description": "DTO for a single anime detail response.",
@@ -533,21 +594,6 @@
             "type": "string"
           },
           "year": {
-            "type": "string"
-          }
-        }
-      },
-      "Genre": {
-        "type": "object",
-        "description": "Genre details.",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "name": {
-            "type": "string"
-          },
-          "name_rus": {
             "type": "string"
           }
         }
