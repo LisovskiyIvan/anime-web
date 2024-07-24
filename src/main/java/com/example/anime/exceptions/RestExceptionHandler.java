@@ -1,5 +1,6 @@
 package com.example.anime.exceptions;
 
+import org.hibernate.query.SemanticException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,6 +15,12 @@ public class RestExceptionHandler {
     protected String handleAnimeNotFound(
             RuntimeException ex, WebRequest request) {
         return "Anime not found";
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = SemanticException.class)
+    protected String handleSemanticException(RuntimeException ex, WebRequest request) {
+        return "Incorrect attribute name";
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

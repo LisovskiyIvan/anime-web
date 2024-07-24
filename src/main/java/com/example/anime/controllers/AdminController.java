@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -42,12 +41,6 @@ public class AdminController {
     private final TrailerRepo trailerRepo;
     private final TranslateProxy translateProxy;
 
-
-
-    @GetMapping
-    public AnimeDTO getAnime(@RequestParam int page) {
-        return proxy.getAnime(page);
-    }
 
     @GetMapping("/add")
     public String addAnime() throws InterruptedException {
@@ -118,6 +111,10 @@ public class AdminController {
             }
         }
         return "redirect:/success.html";
+    }
+
+    private AnimeDTO getAnime(@RequestParam int page) {
+        return proxy.getAnime(page);
     }
 
     private void translate(AnimeDTO.Anime anime, String status) {
