@@ -12,6 +12,76 @@
     }
   ],
   "paths": {
+    "/user": {
+      "post": {
+        "tags": [
+          "user data"
+        ],
+        "summary": "Add a new user",
+        "operationId": "addUser",
+        "requestBody": {
+          "description": "New user information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully created"
+          },
+          "409": {
+            "description": "Conflict, e.g., email or username already taken"
+          }
+        }
+      }
+    },
+    "/user/{username}": {
+      "put": {
+        "tags": [
+          "user data"
+        ],
+        "summary": "Update user information",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Username of the user to be updated"
+          }
+        ],
+        "requestBody": {
+          "description": "Updated user data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User information successfully updated"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Conflict, e.g., email or username already taken"
+          }
+        }
+      }
+    },
     "/genres": {
       "get": {
         "tags": [
@@ -344,6 +414,40 @@
   },
   "components": {
     "schemas": {
+      "UserDTO": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "First name"
+          },
+          "second_name": {
+            "type": "string",
+            "description": "Last name"
+          },
+          "patronymic": {
+            "type": "string",
+            "description": "Patronymic"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email"
+          }
+        },
+        "required": [
+          "username",
+          "password",
+          "email"
+        ]
+      },
       "RequestedGenreDTO": {
         "type": "object",
         "properties": {

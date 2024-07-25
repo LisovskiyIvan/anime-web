@@ -2,6 +2,7 @@ package com.example.anime.exceptions;
 
 import org.hibernate.query.SemanticException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -40,6 +41,13 @@ public class RestExceptionHandler {
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ExceptionHandler(value = UserAlreadyExistsException.class)
     protected String handleUserAlreadyExistsException(
+            RuntimeException ex, WebRequest request) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    protected String handleUsernameNotFoundException(
             RuntimeException ex, WebRequest request) {
         return ex.getMessage();
     }

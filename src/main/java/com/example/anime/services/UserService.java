@@ -1,10 +1,12 @@
 package com.example.anime.services;
 
+import com.example.anime.DTO.requested.UserDTO;
 import com.example.anime.domain.User;
 import com.example.anime.exceptions.EmailIsAlreadyTakenException;
 import com.example.anime.exceptions.UserAlreadyExistsException;
 import com.example.anime.repos.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,11 +27,29 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public boolean update(User user) {
-        if (userRepo.findByUsername(user.getUsername()).isPresent()) {
-            userRepo.save(user);
-            return true;
+    public void update(UserDTO user, String username) {
+        User existedUser = userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        String newUsername = user.getUsername();
+        String newEmail = user.getEmail();
+        if (!newUsername.equals(username)) {
+            if (userRepo.findByUsername(newUsername).isPresent()) {
+                throw new UserAlreadyExistsException("User with username: " + newUsername + " already exists");
+
+            } else {
+                existedUser.setUsername(newUsername);
+            }
         }
-        return false;
+        if (!newEmail.equals(existedUser.getEmail())) {
+            if (userRepo.findByEmail(newEmail).isPresent()) {
+                throw new EmailIsAlreadyTakenException("Email address is already taken");
+            } else {
+                existedUser.setEmail(newEmail);
+            }
+        }
+        existedUser.setPassword(user.getPassword());
+        existedUser.setPatronymic(user.getPatronymic());
+        existedUser.setFirstName(user.getSecondName());
+        existedUser.setSecondName(user.getSecondName());
+        userRepo.save(existedUser);
     }
 }

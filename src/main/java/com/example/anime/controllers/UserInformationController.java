@@ -21,10 +21,11 @@ public class UserInformationController {
         userService.save(mapper.dtoToDomain(user));
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PutMapping
-    public void updateUser(@RequestBody UserDTO user) {
-        userService.update(mapper.dtoToDomain(user));
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{username}")
+    public void updateUser(@RequestBody UserDTO user,
+                           @PathVariable String username) {
+        userService.update(user, username);
     }
 
 
