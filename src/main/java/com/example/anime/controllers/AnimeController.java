@@ -4,7 +4,7 @@ import com.example.anime.DTO.requested.RequestedAnimeDTO;
 import com.example.anime.DTO.requested.SingleAnimeDTO;
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.Genre;
-import com.example.anime.mappers.AnimeDomainToDTOMapper;
+import com.example.anime.mappers.AnimeMapper;
 import com.example.anime.services.AnimeService;
 import com.example.anime.services.GenreService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +25,11 @@ import java.util.Map;
 public class AnimeController {
 
     private final AnimeService animeService;
-    private final AnimeDomainToDTOMapper domainToDTOMapper;
+    private final AnimeMapper domainToDTOMapper;
     private final GenreService genreService;
 
     public AnimeController(AnimeService animeService,
-                           AnimeDomainToDTOMapper domainToDTOMapper,
+                           AnimeMapper domainToDTOMapper,
                            GenreService genreService) {
         this.animeService = animeService;
         this.domainToDTOMapper = domainToDTOMapper;

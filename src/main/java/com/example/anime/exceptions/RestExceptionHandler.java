@@ -30,5 +30,19 @@ public class RestExceptionHandler {
         return "Incorrect status";
     }
 
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    @ExceptionHandler(value = EmailIsAlreadyTakenException.class)
+    protected String handleEmailIsAlreadyTakenException(
+            RuntimeException ex, WebRequest request) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    @ExceptionHandler(value = UserAlreadyExistsException.class)
+    protected String handleUserAlreadyExistsException(
+            RuntimeException ex, WebRequest request) {
+        return ex.getMessage();
+    }
+
 
 }

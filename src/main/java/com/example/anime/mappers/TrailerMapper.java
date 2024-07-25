@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface DTOToTrailerDomainMapper {
+public interface TrailerMapper {
     @Mapping(target = "youtubeId", expression = "java(anime.getTrailer().getYoutubeId())")
     @Mapping(target = "url", expression = "java(anime.getTrailer().getUrl())")
     @Mapping(target = "embedUrl", expression = "java(anime.getTrailer().getEmbedUrl())")

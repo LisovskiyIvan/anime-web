@@ -5,7 +5,7 @@ import com.example.anime.Status;
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.User;
 import com.example.anime.exceptions.InvalidStatusException;
-import com.example.anime.mappers.AnimeDomainToDTOMapper;
+import com.example.anime.mappers.AnimeMapper;
 import com.example.anime.services.AnimeService;
 import com.example.anime.services.UserAnimeService;
 import com.example.anime.services.UserDetailsServiceImpl;
@@ -24,7 +24,7 @@ public class UserAnimeController {
     private final UserAnimeService userAnimeService;
     private final AnimeService animeService;
     private final UserDetailsServiceImpl userDetailsService;
-    private final AnimeDomainToDTOMapper mapper;
+    private final AnimeMapper mapper;
 
     /**
      * Get user anime list
