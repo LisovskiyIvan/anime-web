@@ -3,7 +3,7 @@
   "info": {
     "title": "Public Anime REST API",
     "description": "Public Anime API Docs",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   "servers": [
     {
@@ -78,8 +78,16 @@
           },
           "409": {
             "description": "Conflict, e.g., email or username already taken"
+          },
+          "401": {
+            "description": "Unauthorized - user does not have permission to update this user"
           }
-        }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
       }
     },
     "/genres": {

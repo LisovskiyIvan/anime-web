@@ -5,6 +5,7 @@ import com.example.anime.mappers.UserMapper;
 import com.example.anime.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class UserInformationController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("#username == authentication.principal.username or hasRole('ADMIN')")
     @PutMapping("/{username}")
     public void updateUser(@RequestBody UserDTO user,
                            @PathVariable String username) {
