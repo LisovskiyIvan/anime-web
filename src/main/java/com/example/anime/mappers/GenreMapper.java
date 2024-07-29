@@ -15,7 +15,6 @@ public interface GenreMapper {
 
     List<RequestedGenreDTO.Genre> domainToDtoList(List<Genre> genres);
 
-    // Преобразует список Genre в RequestedGenreDTO
     default RequestedGenreDTO domainToRequestedDto(List<Genre> genreList) {
         RequestedGenreDTO dto = new RequestedGenreDTO();
         dto.setGenres(domainToDtoList(genreList));

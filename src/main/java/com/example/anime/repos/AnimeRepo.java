@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface AnimeRepo extends JpaRepository<Anime, Long>, CustomizedAnimeRepo<Anime> {
 
     Optional<List<Anime>> findAllByStatus(String status);
+
+    Optional<List<Anime>> findByTitleContainingIgnoreCaseOrTitleEnglishContainingIgnoreCaseOrTitleJapaneseContainingIgnoreCase(
+            String title, String titleEnglish, String titleJapanese);
 }

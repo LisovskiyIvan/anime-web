@@ -3,6 +3,7 @@ package com.example.anime;
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.User;
 import com.example.anime.domain.UserAnime;
+import com.example.anime.repos.AnimeRepo;
 import com.example.anime.repos.UserAnimeRepo;
 import com.example.anime.repos.UserRepo;
 import com.example.anime.services.UserDetailsServiceImpl;
@@ -21,6 +22,8 @@ public class RepoTests {
     private UserAnimeRepo userAnimeRepo;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private AnimeRepo animeRepo;
 
     @Test
     public void userAnimeListTest() {
@@ -34,7 +37,5 @@ public class RepoTests {
 
 
     }
-
-
 
 }

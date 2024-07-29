@@ -2,8 +2,11 @@ package com.example.anime.mappers;
 
 import com.example.anime.DTO.anilist.AnimeDTO;
 import com.example.anime.DTO.requested.RequestedAnimeDTO;
+import com.example.anime.DTO.requested.RequestedGenreDTO;
+import com.example.anime.DTO.requested.SearchResult;
 import com.example.anime.DTO.requested.SingleAnimeDTO;
 import com.example.anime.domain.Anime;
+import com.example.anime.domain.Genre;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
@@ -29,6 +32,15 @@ public interface AnimeMapper {
     RequestedAnimeDTO domainListToDTO(Page<Anime> anime);
 
     List<RequestedAnimeDTO.Anime> animeDomainToDTOAnime(List<Anime> anime);
+
+    List<SearchResult.Anime> domainToDtoList(List<Anime> anime);
+
+    default SearchResult domainToSearchResult(List<Anime> anime) {
+        SearchResult searchResult = new SearchResult();
+        searchResult.setSearchResults(anime.size());
+        searchResult.setData(domainToDtoList(anime));
+        return searchResult;
+    }
 
     default RequestedAnimeDTO.Pagination getPagination(Page<Anime> anime) {
         RequestedAnimeDTO.Pagination pagination = new RequestedAnimeDTO.Pagination();

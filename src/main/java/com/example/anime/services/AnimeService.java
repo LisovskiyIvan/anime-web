@@ -47,6 +47,11 @@ public class AnimeService {
         return animeRepo.findAllByParams(status, type, genre, pageable).orElseThrow(NoSuchAnimeException::new);
     }
 
+    public List<Anime> findBySubstring(String title) {
+        return animeRepo.findByTitleContainingIgnoreCaseOrTitleEnglishContainingIgnoreCaseOrTitleJapaneseContainingIgnoreCase(title, title, title)
+                .orElseThrow(NoSuchAnimeException::new);
+    }
+
 
 
 }
