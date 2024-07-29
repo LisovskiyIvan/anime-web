@@ -3,7 +3,7 @@
   "info": {
     "title": "Public Anime REST API",
     "description": "Public Anime API Docs",
-    "version": "1.0.2"
+    "version": "1.0.3"
   },
   "servers": [
     {
@@ -12,6 +12,41 @@
     }
   ],
   "paths": {
+    "/anime/search": {
+      "get": {
+        "tags": [
+          "public anime"
+        ],
+        "summary": "Find anime by title",
+        "description": "Search for anime using a title in English, Russian, or Japanese.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The title of the anime to search for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of anime matching the search query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Anime not found"
+          }
+        }
+      }
+    },
     "/user": {
       "post": {
         "tags": [
@@ -422,6 +457,21 @@
   },
   "components": {
     "schemas": {
+      "SearchResult": {
+        "type": "object",
+        "properties": {
+          "search_results": {
+            "type": "integer",
+            "description": "The number of search results."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Anime"
+            }
+          }
+        }
+      },
       "UserDTO": {
         "type": "object",
         "properties": {

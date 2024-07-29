@@ -49,6 +49,7 @@ public class AnimeService {
 
     public List<Anime> findBySubstring(String title) {
         return animeRepo.findByTitleContainingIgnoreCaseOrTitleEnglishContainingIgnoreCaseOrTitleJapaneseContainingIgnoreCase(title, title, title)
+                .filter(list -> !list.isEmpty())
                 .orElseThrow(NoSuchAnimeException::new);
     }
 
