@@ -4,6 +4,7 @@ import com.example.anime.domain.Genre;
 import com.example.anime.repos.GenreRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -17,6 +18,10 @@ public class GenreService {
 
     public Genre findGenreByName(String genreName) {
         return genreRepo.findGenreByName(genreName).orElseThrow(NoSuchElementException::new);
+    }
+
+    public List<Genre> findAll() {
+        return genreRepo.findAll();
     }
 
 

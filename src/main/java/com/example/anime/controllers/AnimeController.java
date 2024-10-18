@@ -1,38 +1,36 @@
 package com.example.anime.controllers;
 
 import com.example.anime.DTO.requested.RequestedAnimeDTO;
+import com.example.anime.DTO.requested.SearchResult;
 import com.example.anime.DTO.requested.SingleAnimeDTO;
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.Genre;
-import com.example.anime.mappers.AnimeDomainToDTOMapper;
+import com.example.anime.mappers.AnimeMapper;
 import com.example.anime.services.AnimeService;
 import com.example.anime.services.GenreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RestController
 @SuppressWarnings("unused")
-@CrossOrigin
 @RequestMapping("/anime")
 public class AnimeController {
 
     private final AnimeService animeService;
-    private final AnimeDomainToDTOMapper domainToDTOMapper;
+    private final AnimeMapper animeMapper;
     private final GenreService genreService;
 
     public AnimeController(AnimeService animeService,
-                           AnimeDomainToDTOMapper domainToDTOMapper,
+                           AnimeMapper animeMapper,
                            GenreService genreService) {
         this.animeService = animeService;
-        this.domainToDTOMapper = domainToDTOMapper;
+        this.animeMapper = animeMapper;
         this.genreService = genreService;
     }
 
@@ -42,7 +40,17 @@ public class AnimeController {
      */
     @GetMapping("/{id}")
     public SingleAnimeDTO getAnimeById(@PathVariable long id) {
-        return domainToDTOMapper.domainToDTO(animeService.findAnimeById(id));
+        return animeMapper.domainToDTO(animeService.findAnimeById(id));
+    }
+
+    /**
+     * Find anime by title (English, Russian, Japanese)
+     * @param query
+     * @return list of anime {@link SearchResult}
+     */
+    @GetMapping("/search")
+    public SearchResult getAnimeByTitle(@RequestParam String query) {
+        return animeMapper.domainToSearchResult(animeService.findBySubstring(query));
     }
 
     /**
@@ -92,8 +100,7 @@ public class AnimeController {
         } else {
             result = animeService.findAll(pageable);
         }
-
-        return domainToDTOMapper.domainListToDTO(result);
+        return animeMapper.domainListToDTO(result);
     }
 
     private List<String> getTypes(List<String> type) {

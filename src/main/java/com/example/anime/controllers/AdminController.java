@@ -5,10 +5,10 @@ import com.example.anime.DTO.anilist.DataForTranslateDTO;
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.Studio;
 import com.example.anime.domain.Trailer;
-import com.example.anime.mappers.DTOToAnimeDomainMapper;
-import com.example.anime.mappers.DTOToGenreDomainMapper;
-import com.example.anime.mappers.DTOToStudioDomainMapper;
-import com.example.anime.mappers.DTOToTrailerDomainMapper;
+import com.example.anime.mappers.AnimeMapper;
+import com.example.anime.mappers.GenreMapper;
+import com.example.anime.mappers.StudioMapper;
+import com.example.anime.mappers.TrailerMapper;
 import com.example.anime.proxy.AnimeProxy;
 import com.example.anime.proxy.TranslateProxy;
 import com.example.anime.repos.AnimeRepo;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -33,21 +32,15 @@ import java.util.List;
 public class AdminController {
     private final AnimeProxy proxy;
     private final AnimeRepo animeRepo;
-    private final DTOToAnimeDomainMapper animeDomainMapper;
-    private final DTOToGenreDomainMapper genreDomainMapper;
+    private final AnimeMapper animeDomainMapper;
+    private final GenreMapper genreDomainMapper;
     private final GenreRepo genreRepo;
     private final StudioRepo studioRepo;
-    private final DTOToStudioDomainMapper studioDomainMapper;
-    private final DTOToTrailerDomainMapper trailerDomainMapper;
+    private final StudioMapper studioDomainMapper;
+    private final TrailerMapper trailerDomainMapper;
     private final TrailerRepo trailerRepo;
     private final TranslateProxy translateProxy;
 
-
-
-    @GetMapping
-    public AnimeDTO getAnime(@RequestParam int page) {
-        return proxy.getAnime(page);
-    }
 
     @GetMapping("/add")
     public String addAnime() throws InterruptedException {
@@ -75,8 +68,8 @@ public class AdminController {
         int upcomingCount = proxy.getPageCount("upcoming").getPagination().getLastPage();
         log.info(proxy.getPageCount("upcoming").toString());
         log.info("Upcomings pages: " + upcomingCount);
-        List<Anime> ongAnime = animeRepo.findAllByStatus("Выходит");
-        List<Anime> upcAnime = animeRepo.findAllByStatus("Анонс");
+        List<Anime> ongAnime = animeRepo.findAllByStatus("Выходит").get();
+        List<Anime> upcAnime = animeRepo.findAllByStatus("Анонс").get();
         List<Studio> studios = studioRepo.findAll();
         List<Trailer> trailers = trailerRepo.findAll();
         for (int i = 1; i <= ongoingCount; i++) {
@@ -118,6 +111,10 @@ public class AdminController {
             }
         }
         return "redirect:/success.html";
+    }
+
+    private AnimeDTO getAnime(@RequestParam int page) {
+        return proxy.getAnime(page);
     }
 
     private void translate(AnimeDTO.Anime anime, String status) {

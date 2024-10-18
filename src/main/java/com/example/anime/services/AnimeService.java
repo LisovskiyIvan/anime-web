@@ -40,11 +40,17 @@ public class AnimeService {
     }
 
     public List<Anime> findAllByStatus(String status) {
-        return animeRepo.findAllByStatus(status);
+        return animeRepo.findAllByStatus(status).orElseThrow(NoSuchAnimeException::new);
     }
 
     public Page<Anime> findAllByParams(List<String> status, List<String> type, List<Genre> genre, Pageable pageable) {
-        return animeRepo.findAllByParams(status, type, genre, pageable);
+        return animeRepo.findAllByParams(status, type, genre, pageable).orElseThrow(NoSuchAnimeException::new);
+    }
+
+    public List<Anime> findBySubstring(String title) {
+        return animeRepo.findByTitleContainingIgnoreCaseOrTitleEnglishContainingIgnoreCaseOrTitleJapaneseContainingIgnoreCase(title, title, title)
+                .filter(list -> !list.isEmpty())
+                .orElseThrow(NoSuchAnimeException::new);
     }
 
 

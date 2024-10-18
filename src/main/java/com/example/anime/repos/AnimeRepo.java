@@ -5,9 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AnimeRepo extends JpaRepository<Anime, Long>, CustomizedAnimeRepo<Anime> {
 
-    List<Anime> findAllByStatus(String status);
+    Optional<List<Anime>> findAllByStatus(String status);
+
+    Optional<List<Anime>> findByTitleContainingIgnoreCaseOrTitleEnglishContainingIgnoreCaseOrTitleJapaneseContainingIgnoreCase(
+            String title, String titleEnglish, String titleJapanese);
 }

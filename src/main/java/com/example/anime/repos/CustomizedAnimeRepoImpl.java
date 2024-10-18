@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomizedAnimeRepoImpl implements CustomizedAnimeRepo<Anime> {
 
@@ -27,15 +28,17 @@ public class CustomizedAnimeRepoImpl implements CustomizedAnimeRepo<Anime> {
     private EntityManager entityManager;
 
     @Override
-    public Page<Anime> findAllByParams(List<String> status, List<String> type, List<Genre> genre, Pageable pageable) {
+    public Optional<Page<Anime>> findAllByParams(List<String> status, List<String> type, List<Genre> genre, Pageable pageable) {
         List<Anime> result;
         String sort = getSort(pageable);
+        PageImpl<Anime> page;
         long animeTotal = createCountQuery(status, type, genre).getSingleResult();
         result = createQuery(status, type, genre, sort)
                 .setFirstResult((int) pageable.getOffset())
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();
-        return new PageImpl<>(result, pageable, animeTotal);
+        page = new PageImpl<>(result, pageable, animeTotal);
+        return Optional.of(page);
 
     }
 

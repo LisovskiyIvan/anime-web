@@ -5,7 +5,7 @@ import com.example.anime.Status;
 import com.example.anime.domain.Anime;
 import com.example.anime.domain.User;
 import com.example.anime.exceptions.InvalidStatusException;
-import com.example.anime.mappers.AnimeDomainToDTOMapper;
+import com.example.anime.mappers.AnimeMapper;
 import com.example.anime.services.AnimeService;
 import com.example.anime.services.UserAnimeService;
 import com.example.anime.services.UserDetailsServiceImpl;
@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,8 +24,16 @@ public class UserAnimeController {
     private final UserAnimeService userAnimeService;
     private final AnimeService animeService;
     private final UserDetailsServiceImpl userDetailsService;
-    private final AnimeDomainToDTOMapper mapper;
+    private final AnimeMapper mapper;
 
+    /**
+     * Get user anime list
+     * @param username
+     * @param status anime watch status (Watching, Rewatching, Onhold, Planned, All, Completed, Dropped)
+     * @param page   - requested page
+     * @param limit  - max elements per page
+     * @return list of user's anime {@link RequestedAnimeDTO}
+     */
     @GetMapping(value = "/{status}", produces = "application/json")
     public RequestedAnimeDTO getUserAnime(@PathVariable(value = "username") String username,
                                           @PathVariable(value = "status") String status,
@@ -42,6 +51,13 @@ public class UserAnimeController {
 
     }
 
+    /**
+     * Add anime to user anime list
+     * @param username
+     * @param animeId id of the adding anime
+     * @param status status of the anime to be added
+     */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
     public void addAnimeToUser(@PathVariable(value = "username") String username,
                                @RequestParam("id") long animeId,
@@ -51,6 +67,11 @@ public class UserAnimeController {
         userAnimeService.saveAnimeToUser(user, anime, status);
     }
 
+    /**
+     * Delete anime from user anime list
+     * @param username
+     * @param animeId id of the anime to be deleted
+     */
     @DeleteMapping("/delete")
     public void deleteAnime(@PathVariable(value = "username") String username,
                             @RequestParam("id") long animeId) {
