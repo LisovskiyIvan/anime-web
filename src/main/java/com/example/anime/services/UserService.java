@@ -7,6 +7,7 @@ import com.example.anime.exceptions.UserAlreadyExistsException;
 import com.example.anime.repos.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public void save(User user) {
         String username = user.getUsername();
@@ -24,6 +26,7 @@ public class UserService {
         if (userRepo.findByUsername(username).isPresent()) {
             throw new UserAlreadyExistsException("User with username: " + username + " already exists");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
     }
 
@@ -46,7 +49,7 @@ public class UserService {
                 existedUser.setEmail(newEmail);
             }
         }
-        existedUser.setPassword(user.getPassword());
+        existedUser.setPassword(passwordEncoder.encode(user.getPassword()));
         existedUser.setPatronymic(user.getPatronymic());
         existedUser.setFirstName(user.getSecondName());
         existedUser.setSecondName(user.getSecondName());

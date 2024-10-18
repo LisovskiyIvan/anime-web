@@ -43,6 +43,7 @@ public class User implements UserDetails {
             cascade = CascadeType.ALL)
     private Set<UserAnime> userAnime;
 
+
     @Override
     public String toString() {
         return "User{" +
